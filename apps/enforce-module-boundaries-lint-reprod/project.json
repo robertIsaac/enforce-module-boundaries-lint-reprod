@@ -1,0 +1,66 @@
+{
+  "name": "enforce-module-boundaries-lint-reprod",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/enforce-module-boundaries-lint-reprod/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/enforce-module-boundaries-lint-reprod",
+        "main": "apps/enforce-module-boundaries-lint-reprod/src/main.ts",
+        "tsConfig": "apps/enforce-module-boundaries-lint-reprod/tsconfig.app.json",
+        "assets": ["apps/enforce-module-boundaries-lint-reprod/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/enforce-module-boundaries-lint-reprod/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "enforce-module-boundaries-lint-reprod:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "enforce-module-boundaries-lint-reprod:build:development"
+        },
+        "production": {
+          "buildTarget": "enforce-module-boundaries-lint-reprod:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "apps/enforce-module-boundaries-lint-reprod/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/enforce-module-boundaries-lint-reprod/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
